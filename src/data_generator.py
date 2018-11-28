@@ -43,7 +43,7 @@ def label_to_cats(label):
 def data_generator(data_path, bs, spe):
     ds = DigitStruct(os.path.join(data_path, "digitStruct.mat"))
     X = np.zeros((bs, 54, 54, 3))
-    Y = np.zeros((bs, 6, 11))
+    Y = np.zeros((bs, 62))
     ids = list(range(len(ds)))
     while True:
         random.shuffle(ids)
