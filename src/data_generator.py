@@ -32,11 +32,11 @@ def get_image(basepath, name, left, top, height, width):
     return image
 
 def label_to_cats(label):
-    cats = np.zeros((6, 11))
+    cats = np.zeros((62,))
     length = min(len(label), 6)
-    cats[0,length] = 1.
+    cats[length] = 1.
     label = np.pad(label, (0, 5 - min(len(label), 5)), "constant", constant_values=10)[:5]
-    cats[1:] = to_categorical(label, num_classes=11)
+    cats[7:] = to_categorical(label, num_classes=11).reshape((55,))
 
     return cats
 
