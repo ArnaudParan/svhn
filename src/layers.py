@@ -1,3 +1,4 @@
+import tensorflow as tf
 from keras import backend as K
 from keras.engine.topology import Layer
 
@@ -12,7 +13,8 @@ class ShapeChanger(Layer):
         super(ShapeChanger, self).build(input_shape)  # Be sure to call this at the end
 
     def call(self, x):
-        return K.concatenate([x[:7], K.constant([0. for _ in range(4)]), x[7:]])
+        bs = K.shape(x)[0]
+        return K.concatenate([x[:,:7], tf.fill(tf.stack([bs, 4]), 0.0), x[:,7:]])
 
     def compute_output_shape(self, input_shape):
         return (input_shape[0], self.output_dim)
