@@ -12,7 +12,7 @@ class ShapeChanger(Layer):
         super(ShapeChanger, self).build(input_shape)  # Be sure to call this at the end
 
     def call(self, x):
-        bs = int(K.shape(x)[0])
+        bs = K.get_variable_shape(x)[0]
         return K.concatenate([x[:,:7], K.constant([[0. for _ in range(4)] for _ in range(bs)]), x[:,7:]])
 
     def compute_output_shape(self, input_shape):
