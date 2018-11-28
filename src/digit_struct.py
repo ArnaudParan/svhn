@@ -3,12 +3,12 @@ import h5py
 
 
 class DigitStruct:
-    
+
     def __init__(self, fpath):
         self.inf = h5py.File(fpath, "r")
         self.digitStructName = self.inf['digitStruct']['name']
         self.digitStructBbox = self.inf['digitStruct']['bbox']
-    
+
     def __len__(self):
         return len(self.digitStructName)
 
@@ -24,7 +24,7 @@ class DigitStruct:
         else:
             attr = [attr.value[0][0]]
         return attr
-    
+
     def __getitem__(self, n):
         if isinstance(n, int):
             if n < 0:
@@ -56,7 +56,7 @@ class DigitStruct:
             return res
 
         raise ValueError("You tried to pass invalid value to __getitem__")
-    
+
     def __iter__(self):
         def iter_through():
             for n in range(len(self)):

@@ -5,7 +5,7 @@ import numpy as np
 from PIL import Image
 from keras.utils import to_categorical
 
-from digit_struct  import DigitStruct
+from .digit_struct  import DigitStruct
 
 def process_image(img, left, right, top, bottom):
     factor = 0.15
