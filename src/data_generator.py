@@ -2,6 +2,7 @@ import os
 import random
 
 import numpy as np
+import pandas as pd
 from PIL import Image
 from keras.utils import to_categorical
 
@@ -53,6 +54,27 @@ def data_generator(data_path, bs, spe):
                 X[j] = get_image(data_path, dsl["name"], dsl["left"], dsl["top"], dsl["height"], dsl["width"])
                 Y[j] = label_to_cats(dsl["label"])
             yield X, Y
+
+def create_data(data_path, output_path, gen_factor=5):
+    ds = DigitStruct(os.path.join(data_path, "digitStruct.mat"))
+    labels = np.zeros((gen_factor * len(ds), 62))
+    names = []
+    for i, dsl in enumerate(ds):
+        labels[i*gen_factor:(i+1)*gen_factor] = label_to_cats(dsl["label"])
+        filename = dsl["name"]
+        file_bname = ".".join(filename.split(".")[:-1])
+        file_ext = filename.split(".")[-1]
+        left = np.min(dsl["left"])
+        right = np.max(dsl["left"] + dsl["width"])
+        top = np.min(dsl["top"])
+        bottom = np.max(dsl["top"] + dsl["height"])
+        with Image.open(os.path.join(data_path, filename)) as img:
+            for j in range(gen_factor):
+                curr_filename = f"{file_bname}.{j}.{file_ext}"
+                names.append(curr_filename)
+                process_image(img, left, right, top, bottom).save(os.path.join(output_path, curr_filename))
+    np.save(os.path.join(output_path, "labels.npy"), labels)
+    pd.Series(names).to_csv(os.path.join(output_path, "names.csv"), index=False)
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
