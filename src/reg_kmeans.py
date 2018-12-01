@@ -1,4 +1,3 @@
-import sys
 import os
 import random
 
@@ -9,6 +8,7 @@ from sklearn.cluster import KMeans
 from PIL import Image
 
 from .digit_struct  import DigitStruct
+from .utils import print_progress_bar
 
 
 def create_reg_data(data_path, gen_factor=2):
@@ -28,8 +28,7 @@ def create_reg_data(data_path, gen_factor=2):
                 c_left = np.random.randint(0, nb_width + 8)
                 c_top = np.random.randint(0, nb_height + 8)
                 X[gen_factor*i + j] = np.array(gray.crop((nb_left - 8 + c_left, nb_top - 8 + c_top, nb_left + c_left, nb_top + c_top)), dtype=np.float64).reshape((64,))
-        sys.stderr.write(f"\rGenerating data [{'=' * (i//len(ds)) + '>' + '-' * (9 - i // len(ds))}] {i/len(ds):.0%} {i}/{len(ds)}")
-        sys.stderr.flush()
+        print_progress_bar(i + 1, len(ds), message="Generating data")
 
     return X
 
