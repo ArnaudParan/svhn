@@ -74,7 +74,7 @@ def create_data(data_path, output_path, gen_factor=5):
                 names.append(curr_filename)
                 process_image(img, left, right, top, bottom).save(os.path.join(output_path, curr_filename))
     np.save(os.path.join(output_path, "labels.npy"), labels)
-    pd.Series(names).to_csv(os.path.join(output_path, "names.csv"), index=False)
+    pd.DataFrame(names, columns=["names"]).to_csv(os.path.join(output_path, "names.csv"), index=False)
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
