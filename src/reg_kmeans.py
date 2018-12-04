@@ -21,7 +21,7 @@ def generate_data(data_path, nb_images=None):
     for i, j in enumerate(ids):
         print_progress_bar(i, nb_images, message="Generating data")
         c_top, c_left = np.random.randint(low=0, high=32 - 8, size=(2,))
-        X[i] = images[j,c_left:c_left+8,c_top:c_top+8].reshape((64,))
+        X[i] = np.mean(images[c_left:c_left+8,c_top:c_top+8,:,j], axis=-1).reshape((64,))
 
     return X
 
