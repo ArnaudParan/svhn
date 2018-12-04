@@ -13,11 +13,11 @@ from .utils import print_progress_bar
 def generate_data(data_path, nb_images=None):
     images = scipy.io.loadmat(data_path)["X"]
     if nb_images is None:
-        nb_images = len(images)
+        nb_images = images.shape[-1]
 
     X = np.zeros((nb_images, 64))
 
-    ids = np.random.randint(low=0, high=len(images), size=(nb_images,))
+    ids = np.random.randint(low=0, high=images.shape[-1], size=(nb_images,))
     for i, j in enumerate(ids):
         print_progress_bar(i, nb_images, message="Generating data")
         c_top, c_left = np.random.randint(low=0, high=32 - 8, size=(2,))
